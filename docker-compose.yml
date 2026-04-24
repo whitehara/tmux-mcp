@@ -1,0 +1,15 @@
+services:
+
+  tmux-mcp:
+    image: ghcr.io/whitehara/tmux-mcp:${IMAGE_TAG:-latest}
+    environment:
+      - HOST_UID=${HOST_UID:-1000}
+      - HOST_GID=${HOST_GID:-1000}
+      - TMUX_MCP_BIND_ADDR=0.0.0.0:8090
+      - TMUX_MCP_MAX_COMMANDS=${TMUX_MCP_MAX_COMMANDS:-1000}
+      - TMUX_MCP_COMMAND_TTL=${TMUX_MCP_COMMAND_TTL:-600}
+      - TMUX_MCP_SHELL=${TMUX_MCP_SHELL:-bash}
+    ports:
+      - "${TMUX_MCP_PORT:-8090}:8090"
+    volumes:
+      - /tmp/tmux-${HOST_UID:-1000}:/tmp/tmux-${HOST_UID:-1000}
