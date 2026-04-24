@@ -35,6 +35,26 @@ git submodule update --init --recursive
 docker build -t ghcr.io/whitehara/tmux-mcp:latest .
 ```
 
+## Known limitations
+
+### `execute-command` and interactive applications (upstream issue)
+
+By default, `execute-command` wraps commands with shell markers for exit-code tracking:
+
+```
+echo "TMUX_MCP_START"; <command>; echo "TMUX_MCP_DONE_$?"
+```
+
+When the target pane is running an interactive application (Claude Code, vim, htop, etc.) instead of a plain shell, this wrapper is sent as raw input and appears verbatim in the application's input area.
+
+**Workaround**: pass `rawMode: true` to send keystrokes without the wrapper:
+
+```json
+{ "paneId": "%1", "command": "your message", "rawMode": true }
+```
+
+Note: `rawMode` disables exit-code tracking, so use `capture-pane` to verify results.
+
 ## Updating upstream
 
 ```bash
