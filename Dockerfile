@@ -7,7 +7,7 @@ COPY upstream/ .
 
 RUN cargo build --release --bin tmux-mcp-server
 
-FROM alpine:3.19
+FROM alpine:edge
 
 RUN apk add --no-cache tmux su-exec bash
 
